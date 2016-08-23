@@ -53,10 +53,10 @@ public class CustomerProfileDao extends NamedParameterJdbcDaoSupport {
      * @param lastname
      * @return
      */
-    public int insertRow(long id, String email, String firstname, String lastname){
-        final String INSERT = "INSERT INTO customer_profile  VALUES (:id, :email, :firstname,:lastname)";
+    public int insertRow(String email, String firstname, String lastname){
+        final String INSERT = "INSERT INTO customer_profile (email,first_name,last_name)  " +
+                "VALUES ( :email, :firstname,:lastname)";
         Map<String, Object> namedParameters = new HashMap<String, Object>();
-        namedParameters.put("id", id);
         namedParameters.put("email",email);
         namedParameters.put("firstname",firstname);
         namedParameters.put("lastname",lastname);

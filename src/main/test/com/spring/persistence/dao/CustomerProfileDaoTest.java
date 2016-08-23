@@ -36,9 +36,9 @@ public class CustomerProfileDaoTest extends TestCase {
 
     @Test
     public void testInsertRow(){
-        //int r = customerProfileDao.insertRow(2,"chensiji@test.com","siji", "chen");
-        CustomerProfile profile = customerProfileDao.customerProfile(2L);
-        //Assert.notNull(profile);
+        int r = customerProfileDao.insertRow("anotherperson@test.com","another", "person");
+        CustomerProfile profile = customerProfileDao.customerProfile(3L);
+        Assert.notNull(profile);
     }
 
     @Test
