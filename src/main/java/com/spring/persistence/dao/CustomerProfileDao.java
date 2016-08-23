@@ -65,7 +65,7 @@ public class CustomerProfileDao extends NamedParameterJdbcDaoSupport {
     }
 
     public List<CustomerProfile> selectAll(){
-        final String SELECT = "select customer_profile_id, email from customer_profile";
+        final String SELECT = "select customer_profile_id, email,first_name,last_name from customer_profile";
 
         List<CustomerProfile> profiles = getNamedParameterJdbcTemplate().query(SELECT,(rs,rowNum)->{
             String email = rs.getString("email");
@@ -74,11 +74,31 @@ public class CustomerProfileDao extends NamedParameterJdbcDaoSupport {
             CustomerProfile customerProfile = new CustomerProfile();
             customerProfile.setEmail(email);
             customerProfile.setId(id);
-
+            customerProfile.setFirstName(rs.getString("first_name"));
+            customerProfile.setLastName(rs.getString("last_name"));
             return  customerProfile;
         });
 
         return profiles;
+    }
+
+    public CustomerProfile findByEmail(String email){
+        final String SELECT = "SELECT * FROM customer_profile where email = :email";
+        Map<String, Object> namedParameters = new HashMap<String, Object>();
+        namedParameters.put("email",email);
+        CustomerProfile profile = getNamedParameterJdbcTemplate().queryForObject(SELECT,
+                namedParameters, new BeanPropertyRowMapper<CustomerProfile>(CustomerProfile.class));
+          return profile;
+    }
+
+    public void updateNamesbyEmail(String email,String firstname, String lastname){
+        CustomerProfile profile=findByEmail(email);
+        Map<String, Object> namedParameters = new HashMap<String, Object>();
+        namedParameters.put("email",email);
+        namedParameters.put("firstname", firstname);
+        namedParameters.put("lastname",lastname);
+        String UPDATE = "UPDATE customer_profile SET first_name =:firstname, last_name = :lastname where email =:email";
+        getNamedParameterJdbcTemplate().update(UPDATE,namedParameters);
     }
     public static void main(String[] args) {
         GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();

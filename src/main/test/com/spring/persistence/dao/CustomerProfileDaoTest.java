@@ -48,5 +48,10 @@ public class CustomerProfileDaoTest extends TestCase {
         Assert.notNull(profiles);
 
     }
+    @Test
+    public void testUpdateNamesbyEmail(){
+        customerProfileDao.updateNamesbyEmail("sijichen@gmail.com","Siji","Chen");
+        System.out.println(customerProfileDao.selectAll());
+    }
 
 }
